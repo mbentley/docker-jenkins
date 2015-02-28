@@ -3,7 +3,7 @@ MAINTAINER Matt Bentley <mbentley@mbentley.net>
 RUN (echo "deb http://http.debian.net/debian/ jessie main contrib non-free" > /etc/apt/sources.list && echo "deb http://http.debian.net/debian/ jessie-updates main contrib non-free" >> /etc/apt/sources.list && echo "deb http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list)
 RUN apt-get update
 
-RUN (DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget openjdk-7-jre-headless git-core mercurial libpcre3-dev build-essential libssl-dev libexpat-dev libpam-dev &&\
+RUN (DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget openjdk-7-jre-headless git-core mercurial &&\ 
 	wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add - &&\
 	echo "deb http://pkg.jenkins-ci.org/debian binary/" > /etc/apt/sources.list.d/jenkins.list &&\
 	apt-get update &&\
@@ -11,8 +11,8 @@ RUN (DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget openjdk-7-jre-h
 	wget --output-document=/usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-latest && chmod +x /usr/local/bin/docker &&\
 	mkdir -p /var/lib/jenkins/plugins)
 
-ADD plugins/ /var/lib/jenkins/plugins/
 ENV JENKINS_HOME /var/lib/jenkins
+ADD plugins/ $JENKINS_HOME/plugins/
 
 VOLUME /var/lib/jenkins
 EXPOSE 8080
