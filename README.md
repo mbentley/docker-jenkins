@@ -8,3 +8,5 @@ To pull this image:
 
 Example usage:
 `docker run -p 8080 -d mbentley/jenkins`
+
+Note: Jenkins runs as the user `jenkins` in the container.  The jenkins user uid & gid are `510` in case a volume is used for the data in `/var/lib/jenkins`.
