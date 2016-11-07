@@ -1,12 +1,16 @@
 FROM debian:jessie
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-RUN (apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget openjdk-7-jre-headless git-core mercurial &&\ 
+RUN (apt-get update && apt-get install -y curl wget openjdk-7-jre-headless git-core mercurial &&\
   wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add - &&\
   echo "deb http://pkg.jenkins-ci.org/debian binary/" > /etc/apt/sources.list.d/jenkins.list &&\
-  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y jenkins &&\
-  wget --output-document=/usr/local/bin/docker https://get.docker.com/builds/Linux/x86_64/docker-latest &&\
+  apt-get update && apt-get install -y jenkins &&\
+  wget --output-document=/tmp/docker-latest.tgz "https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz" &&\
+  cd /tmp &&\
+  tar -vxzf docker-latest.tgz &&\
+  mv /tmp/docker/docker /usr/local/bin/docker &&\
   chmod +x /usr/local/bin/docker &&\
+  rm -rf /tmp/docker /tmp/docker-latest.tgz &&\
   mkdir -p /var/lib/jenkins/plugins)
 
 ENV JENKINS_HOME /var/lib/jenkins
