@@ -1,12 +1,16 @@
 #!/bin/bash
 
+set -e
+
 SCRIPT_HOME="$( cd "$( dirname "$0" )" && pwd )"
 
-cd $SCRIPT_HOME/plugins
+URL="http://updates.jenkins-ci.org/latest/"
 
-plugins="build-blocker-plugin cobertura greenballs instant-messaging postbuild-task copy-to-slave credentials ssh-credentials ssh ssh-agent git-client git-parameter git github-api github scm-api mercurial jabber"
+cd "$SCRIPT_HOME/plugins"
+
+plugins="bouncycastle-api build-blocker-plugin cobertura copy-to-slave credentials display-url-api git git-client git-parameter github github-api greenballs instant-messaging jabber javadoc jquery junit mailer matrix-project maven-plugin mercurial plain-credentials postbuild-task scm-api script-security ssh ssh-agent ssh-credentials structs token-macro workflow-scm-step workflow-step-api"
 
 for i in ${plugins}
 do
-  wget -nv -N --no-check-certificate http://ftp-nyc.osuosl.org/pub/jenkins/plugins/${i}/latest/${i}.hpi
+  wget -nv -N --no-check-certificate "${URL}/${i}.hpi"
 done

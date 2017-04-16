@@ -1,7 +1,7 @@
-FROM debian:jessie
+FROM debian:sid
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-RUN (apt-get update && apt-get install -y curl wget openjdk-7-jre-headless git-core mercurial &&\
+RUN (apt-get update && apt-get install -y curl wget openjdk-8-jre-headless git-core gnupg mercurial &&\
   wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add - &&\
   echo "deb http://pkg.jenkins-ci.org/debian binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update && apt-get install -y jenkins &&\
