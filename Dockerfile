@@ -20,7 +20,7 @@ ADD plugins/ $JENKINS_HOME/plugins/
 
 RUN (userdel jenkins &&\
   groupadd -g 510 jenkins &&\
-  groupadd -g 998 docker &&\
+  groupadd -g 999 docker &&\
   useradd -u 510 -g 510 -G docker -d /var/lib/jenkins jenkins &&\
   chown -R jenkins:jenkins /var/lib/jenkins)
 
