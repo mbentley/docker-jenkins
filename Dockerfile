@@ -1,7 +1,7 @@
 FROM debian:sid
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-ENV DOCKER_VERSION=18.09.3-ce
+ENV DOCKER_VERSION=18.09.3
 
 RUN (apt-get update && apt-get install -y curl wget openjdk-8-jre-headless git-core gnupg mercurial sudo &&\
   wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - &&\
