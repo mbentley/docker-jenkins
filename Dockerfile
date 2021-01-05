@@ -4,7 +4,7 @@ MAINTAINER Matt Bentley <mbentley@mbentley.net>
 ENV DOCKER_VERSION=20.10.1
 
 RUN apt-get update &&\
-  apt-get install -y curl jq wget openjdk-11-jre-headless git-core gnupg mercurial sudo &&\
+  apt-get install -y curl git-core gnupg jq mercurial openjdk-11-jre-headless sudo tini wget &&\
   wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - &&\
   echo "deb https://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
@@ -32,4 +32,5 @@ RUN echo 'jenkins            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/jenkins
 USER jenkins
 VOLUME /var/lib/jenkins
 EXPOSE 8080
+ENTRYPOINT ["/tini", "--"]
 CMD ["java","-jar","/usr/share/jenkins/jenkins.war"]
