@@ -32,5 +32,5 @@ RUN echo 'jenkins            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/jenkins
 USER jenkins
 VOLUME /var/lib/jenkins
 EXPOSE 8080
-ENTRYPOINT ["/tini", "--"]
+ENTRYPOINT ["tini", "--"]
 CMD ["java","-jar","/usr/share/jenkins/jenkins.war"]
