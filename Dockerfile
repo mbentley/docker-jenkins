@@ -1,7 +1,7 @@
 FROM debian:sid
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-ENV DOCKER_VERSION=20.10.1
+ENV DOCKER_VERSION=20.10.3
 
 RUN apt-get update &&\
   apt-get install -y curl git-core gnupg jq mercurial openjdk-11-jre-headless sudo tini wget &&\
@@ -14,7 +14,7 @@ RUN apt-get update &&\
   tar -vxzf docker-${DOCKER_VERSION}.tgz &&\
   mv /tmp/docker/docker /usr/local/bin/docker &&\
   chmod +x /usr/local/bin/docker &&\
-  rm -rf /tmp/docker /tmp/docker-${DOCKER_VERSION}.tgz &&\
+  rm -rf /tmp/docker /tmp/docker-${DOCKER_VERSION}.tgz /var/lib/apt/lists/* &&\
   mkdir -p /var/lib/jenkins/plugins &&\
   chown -R 510:510 /var/lib/jenkins
 
