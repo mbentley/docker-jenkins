@@ -1,10 +1,10 @@
 FROM debian:sid
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-ENV DOCKER_VERSION=20.10.3
+ARG DOCKER_VERSION=20.10.6
 
 RUN apt-get update &&\
-  apt-get install -y curl git-core gnupg jq lynx mercurial openjdk-11-jre-headless sudo tini wget &&\
+  apt-get install -y curl git-core gnupg jq lynx mercurial openjdk-11-jre-headless sudo tini w3m wget &&\
   wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - &&\
   echo "deb https://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
