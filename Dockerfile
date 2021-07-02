@@ -1,6 +1,7 @@
 FROM debian:sid
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
+ARG JENKINS_VER
 ARG DOCKER_VERSION=20.10.6
 
 RUN apt-get update &&\
