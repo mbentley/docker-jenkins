@@ -1,8 +1,9 @@
-FROM debian:sid
+FROM debian:bullseye
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 ARG JENKINS_VER
-ARG DOCKER_VERSION=20.10.6
+ARG DOCKER_VERSION=20.10.8
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update &&\
   apt-get install -y curl git-core gnupg jq lynx mercurial openjdk-11-jre-headless sudo tini w3m wget &&\
