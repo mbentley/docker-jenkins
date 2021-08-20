@@ -31,8 +31,8 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - &&\
 
 # JAVA_OPTS best practices come from https://support.cloudbees.com/hc/en-us/articles/222446987-Prepare-Jenkins-for-Support
 ENV JENKINS_HOME=/var/lib/jenkins \
-  JAVA_OPTS="-Xmx8g -Xms8g -XX:+UseG1GC"
-  #JAVA_OPTS="-Xmx8g -Xms8g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions"
+  JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions -verbose:gc -Xlog:gc" \
+  MAX_MEMORY="4g"
 
 COPY entrypoint.sh /entrypoint.sh
 

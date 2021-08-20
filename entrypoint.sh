@@ -1,10 +1,13 @@
 #!/bin/sh
 
+# variables that are inherited from the Dockerfile or passed at runtime
 JAVA_OPTS="${JAVA_OPTS:-}"
+MAX_MEMORY="${MAX_MEMORY:-}"
 
 case $1 in
   jenkins)
-    exec tini -- java ${JAVA_OPTS} -jar /usr/share/jenkins/jenkins.war
+    # shellcheck disable=SC2086
+    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} -jar /usr/share/jenkins/jenkins.war
     ;;
   *)
     exec "${@}"
