@@ -2,7 +2,6 @@ FROM debian:bullseye
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 ARG JENKINS_VER
-ARG DOCKER_VERSION=20.10.8
 ARG DEBIAN_FRONTEND=noninteractive
 
 # install jenkins
@@ -23,17 +22,17 @@ RUN apt-get update &&\
   chmod 0440 /etc/sudoers.d/jenkinsnosudo &&\
   rm -rf /var/lib/apt/lists/*
 
-# install docker cli
-RUN wget --output-document=/tmp/docker-${DOCKER_VERSION}.tgz "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz" &&\
-  cd /tmp  &&\
-  tar -vxzf docker-${DOCKER_VERSION}.tgz &&\
-  mv /tmp/docker/docker /usr/local/bin/docker &&\
-  chmod +x /usr/local/bin/docker &&\
-  rm -rf /tmp/docker /tmp/docker-${DOCKER_VERSION}.tgz
+# install docker cli from the docker repos
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - &&\
+  echo "deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list &&\
+  apt-get update &&\
+  apt-get install -y docker-ce-cli &&\
+  rm -rf /var/lib/apt/lists/*
 
 # JAVA_OPTS best practices come from https://support.cloudbees.com/hc/en-us/articles/222446987-Prepare-Jenkins-for-Support
 ENV JENKINS_HOME=/var/lib/jenkins \
-  JAVA_OPTS="-Xmx8g -Xms8g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions -verbose:gc -Xlog:gc*"
+  JAVA_OPTS="-Xmx8g -Xms8g -XX:+UseG1GC"
+  #JAVA_OPTS="-Xmx8g -Xms8g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions"
 
 COPY entrypoint.sh /entrypoint.sh
 
