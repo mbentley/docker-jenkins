@@ -6,6 +6,8 @@ MAX_MEMORY="${MAX_MEMORY:-}"
 JENKINS_URL="${JENKINS_URL:-}"
 NODE_NAME="${NODE_NAME:-}"
 JENKINS_SECRET="${JENKINS_SECRET:-}"
+JENKINS_JAR="${JENKINS_JAR:-/usr/share/java/jenkins.war}"
+AGENT_JAR="${AGENT_JAR:-/usr/share/jenkins/agent.jar}"
 
 case $1 in
   jenkins-agent)
@@ -17,11 +19,11 @@ case $1 in
     fi
 
     # shellcheck disable=SC2086
-    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} -jar /usr/share/jenkins/agent.jar -jnlpUrl "${JENKINS_URL}computer/${NODE_NAME}/jenkins-agent.jnlp" -secret "${JENKINS_SECRET}" -workDir "/var/lib/jenkins"
+    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} -jar "${AGENT_JAR}" -jnlpUrl "${JENKINS_URL}computer/${NODE_NAME}/jenkins-agent.jnlp" -secret "${JENKINS_SECRET}" -workDir "/var/lib/jenkins"
     ;;
   jenkins)
     # shellcheck disable=SC2086
-    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} -jar /usr/share/jenkins/jenkins.war
+    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} -jar "${JENKINS_JAR}"
     ;;
   *)
     exec "${@}"
