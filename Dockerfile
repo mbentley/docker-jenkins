@@ -27,7 +27,7 @@ RUN apt-get update &&\
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - &&\
   echo "deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list &&\
   apt-get update &&\
-  apt-get install -y docker-ce-cli &&\
+  apt-get install -y --no-install-recommends docker-ce-cli &&\
   rm -rf /var/lib/apt/lists/*
 
 # copy in entrypoint
@@ -38,7 +38,7 @@ USER jenkins
 
 # JAVA_OPTS best practices come from https://support.cloudbees.com/hc/en-us/articles/222446987-Prepare-Jenkins-for-Support
 ENV JENKINS_HOME=/var/lib/jenkins \
-  JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions -verbose:gc -Xlog:gc -Dorg.jenkinsci.plugins.pipeline.modeldefinition.parser.RuntimeASTTransformer.SCRIPT_SPLITTING_TRANSFORMATION=true" \
+  JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UseContainerSupport -verbose:gc -Xlog:gc -Dorg.jenkinsci.plugins.pipeline.modeldefinition.parser.RuntimeASTTransformer.SCRIPT_SPLITTING_TRANSFORMATION=true" \
   MAX_MEMORY="4g"
 
 VOLUME /var/lib/jenkins
