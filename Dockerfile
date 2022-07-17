@@ -8,6 +8,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # install jenkins
 RUN apt-get update &&\
   apt-get install -y curl git-core gnupg jq lynx mercurial openjdk-11-jre-headless sudo tini w3m wget &&\
+  apt-get install -y --no-install-recommends parallel &&\
   wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - &&\
   echo "deb http://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
