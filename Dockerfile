@@ -7,12 +7,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # install jenkins
 RUN apt-get update &&\
-  apt-get install -y curl git-core gnupg jq lynx mercurial openjdk-11-jre-headless sudo tini w3m wget &&\
-  apt-get install -y --no-install-recommends parallel &&\
+  apt-get install --no-install-recommends -y bzip2 ca-certificates curl git-core gnupg jq less lynx openjdk-11-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget &&\
   wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - &&\
   echo "deb http://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
-  apt-get install -y jenkins &&\
+  apt-get install --no-install-recommends -y jenkins &&\
   mkdir -p /var/lib/jenkins/plugins &&\
   chown -R 510:510 /var/lib/jenkins &&\
   userdel jenkins &&\
@@ -25,7 +24,7 @@ RUN apt-get update &&\
   rm -rf /var/lib/apt/lists/*
 
 # install docker cli from the docker repos
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - &&\
+RUN wget -q -O - https://download.docker.com/linux/debian/gpg | apt-key add - &&\
   echo "deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list &&\
   apt-get update &&\
   apt-get install -y --no-install-recommends docker-ce-cli &&\
