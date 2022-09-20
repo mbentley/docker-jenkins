@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # install jenkins agent
 RUN apt-get update &&\
-  apt-get install --no-install-recommends -y bzip2 ca-certificates curl git-core gnupg jq less lynx openjdk-11-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget &&\
+  apt-get install --no-install-recommends -y bzip2 ca-certificates curl git-core gnupg jq less lynx openjdk-11-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &\
   mkdir /usr/share/jenkins &&\
   wget -nv -O /usr/share/jenkins/agent.jar "${JENKINS_URL}jnlpJars/agent.jar" &&\
   mkdir -p /var/lib/jenkins &&\
