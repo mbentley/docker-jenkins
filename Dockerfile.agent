@@ -31,6 +31,7 @@ RUN wget -q -O - https://download.docker.com/linux/debian/gpg | apt-key add - &&
   rm -rf /var/lib/apt/lists/* &&\
   wget -q -O /tmp/docker-buildx "https://github.com/docker/buildx/releases/download/${BUILDX_VER}/buildx-${BUILDX_VER}.linux-amd64" &&\
   chmod +x /tmp/docker-buildx &&\
+  mkdir -p /usr/libexec/docker/cli-plugins &&\
   mv /tmp/docker-buildx /usr/libexec/docker/cli-plugins/docker-buildx
 
 # copy in entrypoint
