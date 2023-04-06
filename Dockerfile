@@ -8,7 +8,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # install jenkins
 RUN apt-get update &&\
   apt-get install --no-install-recommends -y bzip2 ca-certificates curl git-core gnupg jq less lynx openjdk-11-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &&\
-  wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - &&\
+  wget -q -O - "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key" | apt-key add - &&\
   echo "deb http://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
   apt-get install --no-install-recommends -y jenkins &&\
