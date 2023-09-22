@@ -1,5 +1,5 @@
 # rebased/repackaged base image that only updates existing packages
-FROM mbentley/debian:bullseye
+FROM mbentley/debian:bookworm
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 ARG JENKINS_VER
@@ -7,9 +7,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # install jenkins
 RUN apt-get update &&\
-  apt-get install --no-install-recommends -y bzip2 ca-certificates curl git-core gnupg jq less lynx openjdk-11-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &&\
-  wget -q -O - "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key" | apt-key add - &&\
-  echo "deb http://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
+  apt-get install --no-install-recommends -y bzip2 ca-certificates curl fontconfig git-core gnupg jq less lynx openjdk-17-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &&\
+  wget -q -O - "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key" | gpg --dearmor -o /etc/apt/keyrings/jenkins.gpg &&\
+  echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
   apt-get install --no-install-recommends -y jenkins &&\
   mkdir -p /var/lib/jenkins/plugins &&\
@@ -24,8 +24,8 @@ RUN apt-get update &&\
   rm -rf /var/lib/apt/lists/*
 
 # install docker cli from the docker repos
-RUN wget -q -O - https://download.docker.com/linux/debian/gpg | apt-key add - &&\
-  echo "deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list &&\
+RUN wget -q -O - https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg &&\
+  echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list &&\
   apt-get update &&\
   apt-get install -y --no-install-recommends docker-ce-cli &&\
   rm -rf /var/lib/apt/lists/*

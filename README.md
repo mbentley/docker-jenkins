@@ -5,12 +5,11 @@ docker image for jenkins
 To pull this image:
 `docker pull mbentley/jenkins`
 
-
 ## Jenkins Controller
 
 Example usage:
 
-```
+```bash
 docker run -d \
   --name jenkins \
   -p 8080:8080 \
@@ -25,7 +24,7 @@ Note: Jenkins runs as the user `jenkins` in the container.  The jenkins user uid
 
 Example usage:
 
-```
+```bash
 docker run -d \
   --name jenkins-agent \
   -e JENKINS_URL="https://jenkins.example.com/" \
@@ -35,3 +34,7 @@ docker run -d \
   -e JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions -verbose:gc -Xlog:gc" \
    mbentley/jenkins:agent
 ```
+
+## Additional Options
+
+* `CUSTOM_OPTS` - append additional options instead of completely overriding `JAVA_OPTS`
