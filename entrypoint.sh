@@ -23,11 +23,11 @@ case $1 in
 
     # output info
     echo "INFO: starting with:"
-    echo "  tini -- java \"-Xmx${MAX_MEMORY}\" \"-Xms${MAX_MEMORY}\" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -jnlpUrl \"${JENKINS_URL}computer/${NODE_NAME}/jenkins-agent.jnlp\" -secret \"${JENKINS_SECRET}\" -workDir \"/var/lib/jenkins\""
+    echo "  tini -- java \"-Xmx${MAX_MEMORY}\" \"-Xms${MAX_MEMORY}\" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -url \"${JENKINS_URL}\" -name \"${NODE_NAME}\" -webSocket - -secret \"${JENKINS_SECRET}\" -workDir \"/var/lib/jenkins\""
     echo
 
     # shellcheck disable=SC2086
-    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${AGENT_JAR}" ${JENKINS_OPTS} -jnlpUrl "${JENKINS_URL}computer/${NODE_NAME}/jenkins-agent.jnlp" -secret "${JENKINS_SECRET}" -workDir "/var/lib/jenkins"
+    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${AGENT_JAR}" ${JENKINS_OPTS} -url "${JENKINS_URL}" -name "${NODE_NAME}" -webSocket - -secret "${JENKINS_SECRET}" -workDir "/var/lib/jenkins"
     ;;
   jenkins)
     # output info
