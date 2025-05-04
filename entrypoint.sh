@@ -22,7 +22,7 @@ fi
 if [ "${AGENT_WEBSOCKET}" = "true" ]
 then
   # agent websocket set to true; add string
-  WEBSOCKET="-websocket true"
+  WEBSOCKET="-webSocket -"
 fi
 
 # determine if we want to run the jenkins-agent or jenkins
