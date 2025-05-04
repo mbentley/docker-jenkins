@@ -1,0 +1,38 @@
+# rebased/repackaged base image that only updates existing packages
+FROM mbentley/alpine:latest
+LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
+
+ARG JENKINS_VER=latest
+
+# install dependencies & other tools (figure out which openjdk package I really want: https://pkgs.alpinelinux.org/packages?name=openjdk21*&branch=v3.21&repo=&arch=x86_64&origin=&flagged=&maintainer= )
+RUN apk add --no-cache bash bzip2 ca-certificates coreutils curl docker-cli fontconfig git gnupg jq less lynx musl-locales musl-locales-lang net-tools openjdk21-jre openssh-client parallel patch psmisc sudo tini ttf-dejavu tzdata unzip w3m wget xmlstarlet
+
+# install jenkins
+RUN mkdir /usr/share/java &&\
+  wget -q "https://get.jenkins.io/war-stable/${JENKINS_VER}/jenkins.war" -O /usr/share/java/jenkins.war &&\
+  mkdir -p /var/lib/jenkins/plugins &&\
+  chown -R 510:510 /var/lib/jenkins &&\
+  for GROUP in 510 998 999; do delgroup "$(grep "x:${GROUP}:" /etc/group | awk -F ':' '{print $1}')" 2>/dev/null || true; done &&\
+  addgroup -g 510 jenkins &&\
+  addgroup -g 998 docker &&\
+  addgroup -g 999 docker2 &&\
+  adduser -D -u 510 -G jenkins -G docker -G docker2 -h /var/lib/jenkins jenkins &&\
+  echo 'jenkins            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/jenkinsnosudo &&\
+  chmod 0440 /etc/sudoers.d/jenkinsnosudo
+
+# copy in entrypoint
+COPY entrypoint.sh /entrypoint.sh
+
+# drop from root to jenkins
+USER jenkins
+
+# JAVA_OPTS best practices come from https://support.cloudbees.com/hc/en-us/articles/222446987-Prepare-Jenkins-for-Support
+ENV LANG=C.UTF-8 \
+  JENKINS_HOME=/var/lib/jenkins \
+  JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UseContainerSupport -Dorg.jenkinsci.plugins.pipeline.modeldefinition.parser.RuntimeASTTransformer.SCRIPT_SPLITTING_TRANSFORMATION=true" \
+  MAX_MEMORY="4g"
+
+VOLUME /var/lib/jenkins
+EXPOSE 8080
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["jenkins"]
