@@ -21,7 +21,7 @@ fi
 
 if [ "${AGENT_WEBSOCKET}" = "true" ]
 then
-  # agent websocket set to true; add string
+  # agent websocket set to true; add argument
   WEBSOCKET="-webSocket"
 fi
 
