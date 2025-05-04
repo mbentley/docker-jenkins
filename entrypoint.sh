@@ -10,6 +10,13 @@ NODE_NAME="${NODE_NAME:-}"
 JENKINS_SECRET="${JENKINS_SECRET:-}"
 JENKINS_JAR="${JENKINS_JAR:-/usr/share/java/jenkins.war}"
 AGENT_JAR="${AGENT_JAR:-/usr/share/jenkins/agent.jar}"
+AGENT_TUNNEL="${AGENT_TUNNEL:-}"
+
+if [ -n "${AGENT_TUNNEL}" ]
+then
+  # agent tunnel provided; set string
+  TUNNEL_STRING="-tunnel ${AGENT_TUNNEL}"
+fi
 
 # determine if we want to run the jenkins-agent or jenkins
 case $1 in
@@ -23,11 +30,11 @@ case $1 in
 
     # output info
     echo "INFO: starting with:"
-    echo "  tini -- java \"-Xmx${MAX_MEMORY}\" \"-Xms${MAX_MEMORY}\" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -url \"${JENKINS_URL}\" -name \"${NODE_NAME}\" -secret \"${JENKINS_SECRET}\" -workDir \"/var/lib/jenkins\""
+    echo "  tini -- java \"-Xmx${MAX_MEMORY}\" \"-Xms${MAX_MEMORY}\" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -url \"${JENKINS_URL}\" -name \"${NODE_NAME}\" -secret \"${JENKINS_SECRET}\" ${TUNNEL_STRING} -workDir \"/var/lib/jenkins\""
     echo
 
     # shellcheck disable=SC2086
-    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${AGENT_JAR}" ${JENKINS_OPTS} -url "${JENKINS_URL}" -name "${NODE_NAME}" -secret "${JENKINS_SECRET}" -workDir "/var/lib/jenkins"
+    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${AGENT_JAR}" ${JENKINS_OPTS} -url "${JENKINS_URL}" -name "${NODE_NAME}" -secret "${JENKINS_SECRET}" ${TUNNEL_STRING} -workDir "/var/lib/jenkins"
     ;;
   jenkins)
     # output info
