@@ -10,16 +10,16 @@ NODE_NAME="${NODE_NAME:-}"
 JENKINS_SECRET="${JENKINS_SECRET:-}"
 JENKINS_JAR="${JENKINS_JAR:-/usr/share/java/jenkins.war}"
 AGENT_JAR="${AGENT_JAR:-/usr/share/jenkins/agent.jar}"
-AGENT_TUNNEL="${AGENT_TUNNEL:-}"
-AGENT_WEBSOCKET="${AGENT_WEBSOCKET:-false}"
+TUNNEL="${TUNNEL:-}"
+WEBSOCKET="${WEBSOCKET:-false}"
 
-if [ -n "${AGENT_TUNNEL}" ]
+if [ -n "${TUNNEL}" ]
 then
   # agent tunnel provided; set string
-  TUNNEL="-tunnel ${AGENT_TUNNEL}"
+  TUNNEL="-tunnel ${TUNNEL}"
 fi
 
-if [ "${AGENT_WEBSOCKET}" = "true" ]
+if [ "${WEBSOCKET}" = "true" ]
 then
   # agent websocket set to true; add argument
   WEBSOCKET="-webSocket"
