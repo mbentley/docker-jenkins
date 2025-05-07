@@ -7,7 +7,7 @@ ARG JENKINS_URL
 ARG BUILDX_VER
 
 # install jenkins agent & dependencies
-RUN apk add --no-cache bash bzip2 ca-certificates coreutils curl diffutils docker-cli fontconfig git gnupg jq less lynx musl-locales musl-locales-lang net-tools openjdk21-jre openssh-client parallel patch psmisc sudo tini ttf-dejavu tzdata unzip w3m wget xmlstarlet &&\
+RUN apk add --no-cache bash bzip2 ca-certificates coreutils curl diffutils docker-cli fontconfig gawk git gnupg jq less lynx musl-locales musl-locales-lang net-tools openjdk21-jre openssh-client parallel patch psmisc sed sudo tini ttf-dejavu tzdata unzip w3m wget xmlstarlet &&\
   mkdir /usr/share/jenkins &&\
   wget -nv -O /usr/share/jenkins/agent.jar "${JENKINS_URL}jnlpJars/agent.jar" &&\
   mkdir -p /var/lib/jenkins &&\
