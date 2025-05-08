@@ -5,7 +5,7 @@ LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 ARG JENKINS_VER=latest
 
 # install dependencies & other tools (figure out which openjdk package I really want: https://pkgs.alpinelinux.org/packages?name=openjdk21*&branch=v3.21&repo=&arch=x86_64&origin=&flagged=&maintainer= )
-RUN apk add --no-cache bash bzip2 ca-certificates coreutils curl diffutils docker-cli fontconfig git gnupg jq less lynx musl-locales musl-locales-lang net-tools openjdk21-jre openssh-client parallel patch psmisc sudo tini ttf-dejavu tzdata unzip w3m wget xmlstarlet
+RUN apk add --no-cache bash bzip2 ca-certificates coreutils curl diffutils docker-cli fontconfig gawk git gnupg jq less lynx musl-locales musl-locales-lang net-tools openjdk21-jre openssh-client parallel patch psmisc sed sudo tini ttf-dejavu tzdata unzip w3m wget xmlstarlet
 
 # install jenkins
 RUN mkdir /usr/share/java &&\
