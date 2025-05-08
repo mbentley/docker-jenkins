@@ -20,6 +20,16 @@ RUN mkdir /usr/share/java &&\
   echo 'jenkins            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/jenkinsnosudo &&\
   chmod 0440 /etc/sudoers.d/jenkinsnosudo
 
+ARG RUSH_VER
+
+# install rush
+RUN cd /tmp &&\
+  wget -q -O rush_linux_amd64.tar.gz "https://github.com/shenwei356/rush/releases/download/${RUSH_VER}/rush_linux_amd64.tar.gz" &&\
+  tar xvf rush_linux_amd64.tar.gz &&\
+  rm rush_linux_amd64.tar.gz &&\
+  chmod +x rush &&\
+  mv rush /usr/local/bin/rush
+
 # copy in entrypoint
 COPY entrypoint.sh /entrypoint.sh
 

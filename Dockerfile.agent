@@ -22,7 +22,6 @@ RUN apt-get update &&\
   chmod 0440 /etc/sudoers.d/jenkinsnosudo &&\
   rm -rf /var/lib/apt/lists/*
 
-
 # install docker cli from the docker repos
 RUN wget -q -O - https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg &&\
   echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list &&\
@@ -33,6 +32,16 @@ RUN wget -q -O - https://download.docker.com/linux/debian/gpg | gpg --dearmor -o
   chmod +x /tmp/docker-buildx &&\
   mkdir -p /usr/libexec/docker/cli-plugins &&\
   mv /tmp/docker-buildx /usr/libexec/docker/cli-plugins/docker-buildx
+
+ARG RUSH_VER
+
+# install rush
+RUN cd /tmp &&\
+  wget -q -O rush_linux_amd64.tar.gz "https://github.com/shenwei356/rush/releases/download/${RUSH_VER}/rush_linux_amd64.tar.gz" &&\
+  tar xvf rush_linux_amd64.tar.gz &&\
+  rm rush_linux_amd64.tar.gz &&\
+  chmod +x rush &&\
+  mv rush /usr/local/bin/rush
 
 # copy in entrypoint
 COPY entrypoint.sh /entrypoint.sh

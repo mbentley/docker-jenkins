@@ -30,6 +30,16 @@ RUN wget -q -O - https://download.docker.com/linux/debian/gpg | gpg --dearmor -o
   apt-get install -y --no-install-recommends docker-ce-cli &&\
   rm -rf /var/lib/apt/lists/*
 
+ARG RUSH_VER
+
+# install rush
+RUN cd /tmp &&\
+  wget -q -O rush_linux_amd64.tar.gz "https://github.com/shenwei356/rush/releases/download/${RUSH_VER}/rush_linux_amd64.tar.gz" &&\
+  tar xvf rush_linux_amd64.tar.gz &&\
+  rm rush_linux_amd64.tar.gz &&\
+  chmod +x rush &&\
+  mv rush /usr/local/bin/rush
+
 # copy in entrypoint
 COPY entrypoint.sh /entrypoint.sh
 
