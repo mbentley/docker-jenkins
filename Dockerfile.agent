@@ -48,7 +48,7 @@ RUN wget -q -O - "https://raw.githubusercontent.com/helm/helm/main/scripts/get-h
 
 # install yq
 ARG YQ_VER
-RUN wget -q "https://github.com/mikefarah/yq/releases/download/${VERSION}/yq_linux_amd64" -O /usr/local/bin/yq &&\
+RUN wget -q "https://github.com/mikefarah/yq/releases/download/${YQ_VER}/yq_linux_amd64" -O /usr/local/bin/yq &&\
     chmod +x /usr/local/bin/yq
 
 # copy in entrypoint
