@@ -22,7 +22,7 @@ fi
 if [ "${WEBSOCKET}" = "true" ]
 then
   # agent websocket set to true; add argument
-  WEBSOCKET="-webSocket"
+  WEBSOCKET="-webSocket -noReconnect"
 fi
 
 # determine if we want to run the jenkins-agent or jenkins
