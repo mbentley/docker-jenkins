@@ -1,5 +1,5 @@
 # rebased/repackaged base image that only updates existing packages
-FROM mbentley/debian:bookworm
+FROM mbentley/debian:trixie
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 ARG JENKINS_VER
@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # install jenkins
 RUN apt-get update &&\
-  apt-get install --no-install-recommends -y bzip2 ca-certificates curl fontconfig git-core gnupg jq less lynx openjdk-17-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &&\
+  apt-get install --no-install-recommends -y bzip2 ca-certificates curl fontconfig git-core gnupg jq less libharfbuzz0b lynx openjdk-21-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &&\
   wget -q -O - "https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key" | gpg --dearmor -o /etc/apt/keyrings/jenkins.gpg &&\
   echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
@@ -25,7 +25,7 @@ RUN apt-get update &&\
 
 # install docker cli from the docker repos
 RUN wget -q -O - https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg &&\
-  echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list &&\
+  echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo "${VERSION_CODENAME}") stable" > /etc/apt/sources.list.d/docker.list &&\
   apt-get update &&\
   apt-get install -y --no-install-recommends docker-ce-cli &&\
   rm -rf /var/lib/apt/lists/*
