@@ -43,6 +43,9 @@ RUN cd /tmp &&\
 # copy in entrypoint
 COPY entrypoint.sh /entrypoint.sh
 
+# copy in discord_notify.sh script
+COPY discord_notify.sh /usr/local/bin/discord_notify.sh
+
 # drop from root to jenkins
 USER jenkins
 
