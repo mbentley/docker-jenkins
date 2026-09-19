@@ -44,7 +44,7 @@ RUN cd /tmp &&\
   mv rush /usr/local/bin/rush
 
 # install helm
-RUN wget -q -O - "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3" | bash
+RUN wget -q -O - "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4" | bash
 
 # install yq
 ARG YQ_VER
