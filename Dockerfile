@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # install jenkins
 RUN apt-get update &&\
-  apt-get install --no-install-recommends -y bzip2 ca-certificates curl fontconfig git-core gnupg jq less libharfbuzz0b lynx openjdk-21-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &&\
+  apt-get install --no-install-recommends -y bzip2 ca-certificates curl fontconfig git-core gnupg jq less libharfbuzz0b lynx openjdk-25-jre-headless openssh-client parallel patch psmisc sudo tini w3m wget xmlstarlet &&\
   wget -q -O - "https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key" | gpg --dearmor -o /etc/apt/keyrings/jenkins.gpg &&\
   echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
   apt-get update &&\
