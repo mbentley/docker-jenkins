@@ -51,8 +51,7 @@ USER jenkins
 
 # JAVA_OPTS best practices come from https://support.cloudbees.com/hc/en-us/articles/222446987-Prepare-Jenkins-for-Support
 ENV JENKINS_HOME=/var/lib/jenkins \
-  JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC -XX:+UnlockDiagnosticVMOptions -XX:+UseContainerSupport -Dorg.jenkinsci.plugins.pipeline.modeldefinition.parser.RuntimeASTTransformer.SCRIPT_SPLITTING_TRANSFORMATION=true" \
-  MAX_MEMORY="4g"
+  JAVA_OPTS="-XX:+UseG1GC -XX:MaxRAMPercentage=50.0 -XX:InitialRAMPercentage=25.0 -XX:+DisableExplicitGC -Dorg.jenkinsci.plugins.pipeline.modeldefinition.parser.RuntimeASTTransformer.SCRIPT_SPLITTING_TRANSFORMATION=true"
 
 VOLUME /var/lib/jenkins
 EXPOSE 8080

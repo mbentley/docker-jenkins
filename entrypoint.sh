@@ -5,6 +5,7 @@ JAVA_OPTS="${JAVA_OPTS:-}"
 CUSTOM_OPTS="${CUSTOM_OPTS:-}"
 JENKINS_OPTS="${JENKINS_OPTS:-}"
 MAX_MEMORY="${MAX_MEMORY:-}"
+HEAP_OPTS=""
 JENKINS_URL="${JENKINS_URL:-}"
 NODE_NAME="${NODE_NAME:-}"
 JENKINS_SECRET="${JENKINS_SECRET:-}"
@@ -28,6 +29,12 @@ else
   WEBSOCKET=""
 fi
 
+# only set a fixed heap if MAX_MEMORY is provided; otherwise the JVM uses the RAM percentage options in JAVA_OPTS
+if [ -n "${MAX_MEMORY}" ]
+then
+  HEAP_OPTS="-Xmx${MAX_MEMORY} -Xms${MAX_MEMORY}"
+fi
+
 # determine if we want to run the jenkins-agent or jenkins
 case $1 in
   jenkins-agent)
@@ -40,20 +47,20 @@ case $1 in
 
     # output info
     echo "INFO: starting with:"
-    echo "  tini -- java \"-Xmx${MAX_MEMORY}\" \"-Xms${MAX_MEMORY}\" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -url \"${JENKINS_URL}\" -name \"${NODE_NAME}\" -secret \"${JENKINS_SECRET}\" ${WEBSOCKET} ${TUNNEL} -workDir \"/var/lib/jenkins\""
+    echo "  tini -- java ${HEAP_OPTS} ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -url \"${JENKINS_URL}\" -name \"${NODE_NAME}\" -secret \"${JENKINS_SECRET}\" ${WEBSOCKET} ${TUNNEL} -workDir \"/var/lib/jenkins\""
     echo
 
     # shellcheck disable=SC2086
-    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${AGENT_JAR}" ${JENKINS_OPTS} -url "${JENKINS_URL}" -name "${NODE_NAME}" -secret "${JENKINS_SECRET}" ${WEBSOCKET} ${TUNNEL} -workDir "/var/lib/jenkins"
+    exec tini -- java ${HEAP_OPTS} ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${AGENT_JAR}" ${JENKINS_OPTS} -url "${JENKINS_URL}" -name "${NODE_NAME}" -secret "${JENKINS_SECRET}" ${WEBSOCKET} ${TUNNEL} -workDir "/var/lib/jenkins"
     ;;
   jenkins)
     # output info
     echo "INFO: starting with:"
-    echo "  tini -- java \"-Xmx${MAX_MEMORY}\" \"-Xms${MAX_MEMORY}\" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${JENKINS_JAR}\" ${JENKINS_OPTS}"
+    echo "  tini -- java ${HEAP_OPTS} ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${JENKINS_JAR}\" ${JENKINS_OPTS}"
     echo
 
     # shellcheck disable=SC2086
-    exec tini -- java "-Xmx${MAX_MEMORY}" "-Xms${MAX_MEMORY}" ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${JENKINS_JAR}" ${JENKINS_OPTS}
+    exec tini -- java ${HEAP_OPTS} ${JAVA_OPTS} ${CUSTOM_OPTS} -jar "${JENKINS_JAR}" ${JENKINS_OPTS}
     ;;
   *)
     exec "${@}"
