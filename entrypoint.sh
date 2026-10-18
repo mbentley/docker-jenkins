@@ -47,7 +47,7 @@ case $1 in
 
     # output info
     echo "INFO: starting with:"
-    echo "  tini -- java ${HEAP_OPTS} ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -url \"${JENKINS_URL}\" -name \"${NODE_NAME}\" -secret \"${JENKINS_SECRET}\" ${WEBSOCKET} ${TUNNEL} -workDir \"/var/lib/jenkins\""
+    echo "  tini -- java ${HEAP_OPTS} ${JAVA_OPTS} ${CUSTOM_OPTS} -jar \"${AGENT_JAR}\" ${JENKINS_OPTS} -url \"${JENKINS_URL}\" -name \"${NODE_NAME}\" -secret \"********\" ${WEBSOCKET} ${TUNNEL} -workDir \"/var/lib/jenkins\""
     echo
 
     # shellcheck disable=SC2086
